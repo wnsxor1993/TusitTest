@@ -44,7 +44,7 @@ extension Project {
                 deploymentTarget: .iOS(targetVersion: iOSTargetVersion,
                                        devices: [.iphone, .ipad]),
                 infoPlist: .default,
-                sources: ["Targets/\(name)/Sources/**"],
+                sources: ["Sources/**"],
                 resources: [],
                 dependencies: dependencies)
         let tests = Target(name: "\(name)Tests",
@@ -52,7 +52,7 @@ extension Project {
                 product: .unitTests,
                 bundleId: "com.TuistTest.\(name)Tests",
                 infoPlist: .default,
-                sources: ["Targets/\(name)/Tests/**"],
+                sources: ["Tests/**"],
                 resources: [],
                 dependencies: [.target(name: name)])
         return [sources, tests]
@@ -60,14 +60,6 @@ extension Project {
 
     /// Helper function to create the application target and the unit test target.
     private static func makeAppTargets(name: String, platform: Platform, iOSTargetVersion: String, dependencies: [TargetDependency]) -> [Target] {
-        let platform: Platform = platform
-        let infoPlist: [String: InfoPlist.Value] = [
-            "CFBundleShortVersionString": "1.0",
-            "CFBundleVersion": "1",
-            "UIMainStoryboardFile": "",
-            "UILaunchStoryboardName": "LaunchScreen"
-            ]
-
         let mainTarget = Target(
             name: name,
             platform: platform,
@@ -75,9 +67,9 @@ extension Project {
             bundleId: "com.TuistTest.\(name)",
             deploymentTarget: .iOS(targetVersion: iOSTargetVersion,
                                    devices: [.iphone, .ipad]),
-            infoPlist: .extendingDefault(with: infoPlist),
-            sources: ["Targets/\(name)/Sources/**"],
-            resources: ["Targets/\(name)/Resources/**"],
+            infoPlist: .default,
+            sources: ["Sources/**"],
+            resources: ["Resources/**"],
             dependencies: dependencies
         )
 
@@ -87,7 +79,7 @@ extension Project {
             product: .unitTests,
             bundleId: "com.TuistTest.\(name)Tests",
             infoPlist: .default,
-            sources: ["Targets/\(name)/Tests/**"],
+            sources: ["Tests/**"],
             dependencies: [
                 .target(name: "\(name)")
         ])

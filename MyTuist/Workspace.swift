@@ -10,4 +10,7 @@ import ProjectDescription
 let appName: String = "MyTuist"
 let workspace: Workspace = .init(
     name: appName,
-    projects: ["Projects/*"])
+    projects: [
+        "Projects/MyTuistApp"
+    ]
+)
