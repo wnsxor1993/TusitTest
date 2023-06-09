@@ -10,11 +10,12 @@ extension Project {
     private static let organizationName: String = "juntaek.OH"
     
     /// Helper function to create the Project for this ExampleApp
-    public static func app(name: String, platform: Platform, iOSTargetVersion: String, dependencies: [TargetDependency]) -> Project {
+    public static func app(name: String, platform: Platform, iOSTargetVersion: String, infoPlist: [String: InfoPlist.Value], dependencies: [TargetDependency]) -> Project {
         
         let targets = makeAppTargets(name: name,
                                      platform: platform,
                                      iOSTargetVersion: iOSTargetVersion,
+                                     infoPlist: infoPlist,
                                      dependencies: dependencies)
         
         return Project(name: name,
@@ -59,7 +60,7 @@ extension Project {
     }
 
     /// Helper function to create the application target and the unit test target.
-    private static func makeAppTargets(name: String, platform: Platform, iOSTargetVersion: String, dependencies: [TargetDependency]) -> [Target] {
+    private static func makeAppTargets(name: String, platform: Platform, iOSTargetVersion: String, infoPlist: [String: InfoPlist.Value], dependencies: [TargetDependency]) -> [Target] {
         let mainTarget = Target(
             name: name,
             platform: platform,
@@ -67,7 +68,7 @@ extension Project {
             bundleId: "com.TuistTest.\(name)",
             deploymentTarget: .iOS(targetVersion: iOSTargetVersion,
                                    devices: [.iphone, .ipad]),
-            infoPlist: .default,
+            infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: dependencies
